@@ -19,23 +19,23 @@ provider "azurerm" {
 }
 
 variable "client_id" {
-  description = "e868bc66-ba31-406f-aa7d-03b7ffdd6057"
+  description = "Azure Client ID used for authentication"
   type        = string
 }
 
 variable "client_secret" {
-  description = "wE98Q~qc5Kjo8wuvaT1.GqSgt4MboTycnJR_fbOG"
+  description = "Azure Client Secret used for authentication"
   type        = string
   sensitive   = true
 }
 
 variable "tenant_id" {
-  description = "c16e3359-81cc-4ad2-bbb9-6303cb0f5d7b"
+  description = "Azure Tenant ID where resources will be managed"
   type        = string
 }
 
 variable "subscription_id" {
-  description = "86815781-5d28-4bf2-bcbf-9bfc4b0dd964"
+  description = "Azure Subscription ID to use for resource deployment"
   type        = string
 }
 
