@@ -10,9 +10,34 @@ terraform {
 
 provider "azurerm" {
   features {}
-  use_oidc = true
+  use_cli = false
+
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
 }
 
+variable "client_id" {
+  description = "e868bc66-ba31-406f-aa7d-03b7ffdd6057"
+  type        = string
+}
+
+variable "client_secret" {
+  description = "wE98Q~qc5Kjo8wuvaT1.GqSgt4MboTycnJR_fbOG"
+  type        = string
+  sensitive   = true
+}
+
+variable "tenant_id" {
+  description = "c16e3359-81cc-4ad2-bbb9-6303cb0f5d7b"
+  type        = string
+}
+
+variable "subscription_id" {
+  description = "86815781-5d28-4bf2-bcbf-9bfc4b0dd964"
+  type        = string
+}
 
 
 resource "azurerm_resource_group" "rg_w" {
