@@ -32,7 +32,7 @@ resource "azurerm_resource_group" "rg_w" {
   tags = {
     environment = "staging"
   }
-}
+
 
 # Add Storage Blob Data Contributor role assignment
 resource "azurerm_role_assignment" "storage_blob_contributor" {
