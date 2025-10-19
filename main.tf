@@ -40,9 +40,17 @@ resource "azurerm_virtual_network" "Virtual_network" {
   location            = "West Europe"
   address_space       = ["10.1.0.0/28"]
 }
+
 resource "azurerm_subnet" "subnet1" {
   name                 = "12prish_12"
   resource_group_name  = "parul"
   virtual_network_name = azurerm_virtual_network.Virtual_network.name
   address_prefixes     = ["10.1.0.0/28"]
+}
+
+# Add Storage Blob Data Contributor role assignment
+resource "azurerm_role_assignment" "storage_blob_contributor" {
+  scope                = azurerm_storage_account.storage_account.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = var.principal_id
 }
