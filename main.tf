@@ -18,11 +18,11 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg_w" {
-  name     = "parul"
+  name     = "Amit"
   location = "West Europe"
 }
 
-resource "azurerm_storage_account" "storage_account" {
+  resource "azurerm_storage_account" "storage_account" {
   name                     = "prisha123"
   resource_group_name      = "parul"
   location                 = "West Europe"
@@ -32,20 +32,6 @@ resource "azurerm_storage_account" "storage_account" {
   tags = {
     environment = "staging"
   }
-}
-
-resource "azurerm_virtual_network" "Virtual_network" {
-  name                = "VNET_PRISHA"
-  resource_group_name = "parul"
-  location            = "West Europe"
-  address_space       = ["10.1.0.0/28"]
-}
-
-resource "azurerm_subnet" "subnet1" {
-  name                 = "12prish_12"
-  resource_group_name  = "parul"
-  virtual_network_name = azurerm_virtual_network.Virtual_network.name
-  address_prefixes     = ["10.1.0.0/28"]
 }
 
 # Add Storage Blob Data Contributor role assignment
