@@ -1,66 +1,48 @@
-name: 'Terraform'
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "4.29.0"
+    }
+  }
+}
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-  workflow_dispatch:    
+provider "azurerm" {
+  features {}
+  use_cli = false
 
-permissions:
-  contents: read
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
+  subscription_id = var.subscription_id
+}
 
-env:
-  ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-  ARM_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-  ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-  ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+resource "azurerm_resource_group" "rg_w" {
+  name     = "parul"
+  location = "West Europe"
+}
 
-jobs:
-  terraform:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: production
+resource "azurerm_storage_account" "storage_account" {
+  name                     = "prisha123"
+  resource_group_name      = "parul"
+  location                 = "West Europe"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 
-    defaults:
-      run:
-        shell: bash
+  tags = {
+    environment = "staging"
+  }
+}
 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    # Use v2 to avoid deprecated set-output usage
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
-        terraform_version: latest
-
-    - name: Terraform Init
-      run: terraform init -input=false -no-color
-
-    - name: Terraform Format (check)
-      run: |
-        echo "Running terraform fmt -check..."
-        if ! terraform fmt -check -recursive -diff; then
-          echo "::error::Terraform files are not formatted. Run 'terraform fmt -recursive' locally to fix formatting."
-          # Exit with non-zero so CI fails and caller can fix formatting before merge
-          exit 1
-        fi
-
-    - name: Terraform Plan
-      run: |
-        echo "Running terraform plan..."
-        if ! terraform plan -input=false -no-color; then
-          echo "::error::terraform plan failed. Inspect the plan output above for details."
-          exit 1
-        fi
-
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      run: |
-        echo "Running terraform apply..."
-        if ! terraform apply -auto-approve -input=false -no-color; then
-          echo "::error::terraform apply failed. Inspect the apply output above for details."
-          exit 1
-        fi
+resource "azurerm_virtual_network" "Virtual_network" {
+  name                = "VNET_PRISHA"
+  resource_group_name = "parul"
+  location            = "West Europe"
+  address_space       = ["10.1.0.0/28"]
+}
+resource "azurerm_subnet" "subnet1" {
+  name                 = "12prish_12"
+  resource_group_name  = "parul"
+  virtual_network_name = azurerm_virtual_network.Virtual_network.name
+  address_prefixes     = ["10.1.0.0/28"]
+}
