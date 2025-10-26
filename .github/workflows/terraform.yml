@@ -40,6 +40,10 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
+    - name: Auto-fix formatting (optional)
+      if: failure()
+      run: terraform fmt -recursive
+
     - name: Terraform Plan
       run: terraform plan -input=false
 
