@@ -18,3 +18,8 @@ variable "subscription_id" {
   description = "Azure Subscription ID to use for resource deployment"
   type        = string
 }
+
+variable "principal_id" {
+  description = "The principal ID for role assignment"
+  type        = string
+}
