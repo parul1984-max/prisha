@@ -22,17 +22,21 @@ resource "azurerm_resource_group" "rg_w" {
   location = "West Europe"
 }
 
-  resource "azurerm_storage_account" "storage_account" {
+resource "azurerm_storage_account" "storage_account" {
   name                     = "prisha123"
-  resource_group_name      = "parul"
-  location                 = "West Europe"
+  resource_group_name      = azurerm_resource_group.rg_w.name
+  location                 = azurerm_resource_group.rg_w.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
-}
 
+  # recommended security settings
+  allow_blob_public_access = false
+  min_tls_version          = "TLS1_2"
+}
 
 # Add Storage Blob Data Contributor role assignment
 resource "azurerm_role_assignment" "storage_blob_contributor" {
+  depends_on          = [azurerm_storage_account.storage_account]
   scope                = azurerm_storage_account.storage_account.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = var.principal_id
