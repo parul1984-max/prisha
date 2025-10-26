@@ -40,8 +40,12 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
-    - name: Auto-fix formatting (optional)
-      if: failure()
+    - name: Terraform Format Check
+      id: fmtcheck
+      run: terraform fmt -recursive -check
+
+    - name: Auto-fix formatting if needed
+      if: failure() && steps.fmtcheck.outcome == 'failure'
       run: terraform fmt -recursive
 
     - name: Terraform Plan
