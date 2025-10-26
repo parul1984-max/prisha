@@ -55,6 +55,5 @@ variable "principal_id" {
 resource "azurerm_role_assignment" "blob_contributor" {
   scope                = azurerm_storage_account.storage_account./subscriptions/86815781-5d28-4bf2-bcbf-9bfc4b0dd964/resourceGroups/parul/providers/Microsoft.Storage/storageAccounts/prisha123
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = var.principal_id
 }
 
